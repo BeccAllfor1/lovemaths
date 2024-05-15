@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let button of buttons) {
         button.addEventListener("click", function () {
             if (this.getAttribute("data-type") === "submit") {
-              checkAnswer();
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute("data-type");
 
@@ -30,6 +30,10 @@ function runGame(gameType) {
 
     if (gameType === "addition") {
         displayAdditionQuestion(num1, num2);
+
+    } else if (gameType === "multiply") {
+        displayMultiplyQuestion(num1, num2);
+
     } else {
         alert(`unknown game type: ${gameType}`);
         throw `unknown game type: ${gameType}. Aborting!`;
@@ -40,18 +44,18 @@ function runGame(gameType) {
  * the returned calculateCorrectAnswer array
  */
 function checkAnswer() {
-let userAnswer = parseInt(document.getElementById("answer-box").value);
-let calculatedAnswer = calculateCorrectAnswer();
-let isCorrect = userAnswer === calculatedAnswer[0];
+    let userAnswer = parseInt(document.getElementById("answer-box").value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
 
-if(isCorrect) {
-    alert("Hey! You got it right! :D");
-    incrementScore();
-}else{
-    alert (`Awwww.... you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}!`);
-    incrementWrongAnswer();
-}
-runGame(calculatedAnswer[1]);
+    if (isCorrect) {
+        alert("Hey! You got it right! :D");
+        incrementScore();
+    } else {
+        alert(`Awwww.... you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}!`);
+        incrementWrongAnswer();
+    }
+    runGame(calculatedAnswer[1]);
 }
 /**Gets the operands (the numbers) and the operator (plus, minus etc)
    * directly from the dom, and returns the correct answer
@@ -63,6 +67,10 @@ function calculateCorrectAnswer() {
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"];
+
+    } else if (operator === "x") {
+        return [operand1 * operand2, "multiply"];
+
     } else {
         alert(` unimplemented operator ${operator}`);
         throw `unimplemented operator ${operator}.Aborting!`;
@@ -74,8 +82,8 @@ function calculateCorrectAnswer() {
  */
 
 function incrementScore() {
-let oldScore = parseInt(document.getElementById("score").innerText);
-document.getElementById("score").innerText = ++oldScore;
+    let oldScore = parseInt(document.getElementById("score").innerText);
+    document.getElementById("score").innerText = ++oldScore;
 }
 /**
  * Gets the current tally of incorrect answers from the DOM and increments by 1.
@@ -92,6 +100,8 @@ function displayAdditionQuestion(operand1, operand2) {
 function displaySubtractionQuestion() {
 
 }
-function MultiplyQuestion() {
-
+function displayMultiplyQuestion(operand1, operand2) {
+    document.getElementById("operand1").textContent = operand1;
+    document.getElementById("operand2").textContent = operand2;
+    document.getElementById("operator").textContent = "x";
 }
